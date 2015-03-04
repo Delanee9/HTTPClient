@@ -22,19 +22,22 @@ public class UpstreamMessage {
     /**
      * Sends a HTTP POST request to the server to register the users details.
      *
-     * @param gcmId
-     * @param mobile
+     * @param gcmId  String
+     * @param mobile String
      */
     public static void postRegister(String gcmId, String mobile) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("https://www.igneous-equinox-653.appspot.com/register");
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/register");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_MOBILE, mobile));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = httpclient.execute(httppost);
+            HttpResponse response = httpClient.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() != 200) {
+                retry(httpPost);
+            }
         } catch(Exception e) {
             logger.warning("Failed to POST Register - " + e);
         }
@@ -43,17 +46,20 @@ public class UpstreamMessage {
     /**
      * Sends a HTTP POST request to the server to unregister the user.
      *
-     * @param gcmId
+     * @param gcmId String
      */
     public static void postUnregister(String gcmId) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("https://www.igneous-equinox-653.appspot.com/unregister");
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/unregister");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = httpclient.execute(httppost);
+            HttpResponse response = httpClient.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() != 200) {
+                retry(httpPost);
+            }
         } catch(Exception e) {
             logger.warning("Failed to POST Unregister - " + e);
         }
@@ -62,19 +68,22 @@ public class UpstreamMessage {
     /**
      * Sends a HTTP POST request to the server to add additional contacts to a users profile.
      *
-     * @param gcmId
-     * @param friendsAdded
+     * @param gcmId        String
+     * @param friendsAdded String
      */
     public static void postAdd(String gcmId, String friendsAdded) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("https://www.igneous-equinox-653.appspot.com/add");
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/add");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_FRIENDS_LIST, friendsAdded));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = httpclient.execute(httppost);
+            HttpResponse response = httpClient.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() != 200) {
+                retry(httpPost);
+            }
         } catch(Exception e) {
             logger.warning("Failed to POST Add - " + e);
         }
@@ -83,19 +92,22 @@ public class UpstreamMessage {
     /**
      * Sends a HTTP POST request to the server to remove contacts from a users profile.
      *
-     * @param gcmId
-     * @param friendsRemoved
+     * @param gcmId          String
+     * @param friendsRemoved String
      */
     public static void postRemove(String gcmId, String friendsRemoved) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("https://www.igneous-equinox-653.appspot.com/remove");
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/remove");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_FRIENDS_LIST, friendsRemoved));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = httpclient.execute(httppost);
+            HttpResponse response = httpClient.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() != 200) {
+                retry(httpPost);
+            }
         } catch(Exception e) {
             logger.warning("Failed to POST Remove - " + e);
         }
@@ -104,21 +116,24 @@ public class UpstreamMessage {
     /**
      * Sends a HTTP POST request to the server to set the visibility of a user.
      *
-     * @param gcmId
-     * @param visibility
-     * @param friendIds
+     * @param gcmId      String
+     * @param visibility String
+     * @param friendIds  String
      */
     public static void postVisibility(String gcmId, String visibility, String friendIds) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("https://www.igneous-equinox-653.appspot.com/visibility");
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/visibility");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_FRIENDS_LIST, friendIds));
             nameValuePairs.add(new BasicNameValuePair("visibility", visibility));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = httpclient.execute(httppost);
+            HttpResponse response = httpClient.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() != 200) {
+                retry(httpPost);
+            }
         } catch(Exception e) {
             logger.warning("Failed to POST Visibility - " + e);
         }
@@ -127,11 +142,11 @@ public class UpstreamMessage {
     /**
      * Sends a HTTP POST request to the server to update a contacts location details.
      *
-     * @param gcmId
-     * @param location
+     * @param gcmId    String
+     * @param location String
      */
     public static void postUpdate(String gcmId, String location) {
-        HttpClient httpclient = new DefaultHttpClient();
+        HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/update");
 
         try {
@@ -140,9 +155,21 @@ public class UpstreamMessage {
             nameValuePairs.add(new BasicNameValuePair("location", location));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = httpclient.execute(httpPost);
+            HttpResponse response = httpClient.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() != 200) {
+                retry(httpPost);
+            }
         } catch(Exception e) {
             logger.warning("Failed to POST Update - " + e);
+        }
+    }
+
+    private static void retry(HttpPost httpPost) {
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            httpClient.execute(httpPost);
+        } catch(Exception e) {
+            logger.severe("Failed to POST to the server - " + e);
         }
     }
 }
