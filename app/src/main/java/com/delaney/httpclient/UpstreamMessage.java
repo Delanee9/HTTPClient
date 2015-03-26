@@ -27,7 +27,7 @@ public class UpstreamMessage {
      */
     public static void postRegister(String gcmId, String mobile) {
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/register");
+        HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/register");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
