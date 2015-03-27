@@ -22,10 +22,10 @@ import com.delaney.httpclient.MainActivity;
 import com.delaney.httpclient.R;
 
 public class Registration2Activity extends ActionBarActivity implements ICommon {
-    public Spinner spinner;
-    public EditText editText;
-    public String dropdownMenu;
-    public Context context;
+    private Spinner spinner;
+    private EditText editText;
+    private String dropdownMenu;
+    private Context context;
 
     /**
      * Returns the App version number.
@@ -69,15 +69,6 @@ public class Registration2Activity extends ActionBarActivity implements ICommon 
             }
         });
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_registration2, menu);
-        return true;
-    }
-
-
 
     /**
      * Onclick method for the continue button.

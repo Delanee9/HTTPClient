@@ -73,7 +73,7 @@ public class UpstreamMessage {
      */
     public static void postAdd(String gcmId, String friendsAdded) {
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/add");
+        HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/add");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));

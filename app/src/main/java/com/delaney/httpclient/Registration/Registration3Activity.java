@@ -11,8 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,10 +33,11 @@ public class Registration3Activity extends ActionBarActivity implements ICommon 
     private static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private GoogleCloudMessaging gcm;
-    private PhoneNumberUtil phoneNumberUtil;
+    private  TelephonyManager telephonyManager;
+    private PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
     private Context context;
     private String regid;
-    private List<String> contacts;
+    private String selectedContacts;
     private List<String> selectedItems = new ArrayList<String>();
     private ListView listView;
 
@@ -67,23 +68,27 @@ public class Registration3Activity extends ActionBarActivity implements ICommon 
         context = getApplicationContext();
         registerInBackground();
 
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
-                String[] number = listView.getAdapter().getItem(position).toString().split("\\n");
-//                phoneNumberUtil.
-                selectedItems.add(number[1]);
+                try {
+                    String[] number = listView.getAdapter().getItem(position).toString().split("\\n");
+                    String formattedNumber = phoneNumberUtil.format(phoneNumberUtil.parse(number[1], telephonyManager.getSimCountryIso()), PhoneNumberUtil.PhoneNumberFormat.E164);
+                    if(selectedItems.contains(formattedNumber)) {
+                        selectedItems.remove(formattedNumber);
+                        Toast.makeText(context, "removed - " + selectedItems.size(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        selectedItems.add(formattedNumber);
+                        Toast.makeText(context, "added - " + selectedItems.size(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch(Exception e) {
+                    Toast.makeText(context, "error - " + e, Toast.LENGTH_SHORT).show();
+                }
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_registration3, menu);
-        return true;
     }
 
     /**
@@ -195,7 +200,8 @@ public class Registration3Activity extends ActionBarActivity implements ICommon 
         while(cursor.moveToNext()) {
             arrayList.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)) + "\n" + cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
         }
-        contacts = arrayList;
+        List<String> contacts = arrayList;
+        cursor.close();
         return new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, arrayList);
     }
 
@@ -205,7 +211,12 @@ public class Registration3Activity extends ActionBarActivity implements ICommon 
      * @param view View
      */
     public void next(View view) {
+        String numberString = "";
         Intent intent = new Intent(this, Registration4Activity.class);
+        for(String item : selectedItems) {
+            numberString = numberString + item + ",";
+        }
+        UpstreamMessage.postAdd(getRegistrationId(context), numberString);
         startActivity(intent);
     }
 }
