@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
@@ -20,12 +21,15 @@ import android.widget.Spinner;
 import com.delaney.httpclient.ICommon;
 import com.delaney.httpclient.MainActivity;
 import com.delaney.httpclient.R;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 public class Registration2Activity extends ActionBarActivity implements ICommon {
     private Spinner spinner;
     private EditText editText;
     private String dropdownMenu;
     private Context context;
+    private TelephonyManager telephonyManager;
+    private PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
 
     /**
      * Returns the App version number.
@@ -88,13 +92,17 @@ public class Registration2Activity extends ActionBarActivity implements ICommon 
      * @param mobileNumber String
      */
     private void storeMobileNumber(Context context, String mobileNumber) {
-        final SharedPreferences prefs = getGCMPreferences(context);
-        int appVersion = getAppVersion(context);
-        Log.i(TAG, "Saving mobileNumber on app version " + appVersion);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(PROPERTY_MOBILE_NUMBER, mobileNumber);
-        editor.putInt(PROPERTY_APP_VERSION, appVersion);
-        editor.apply();
+        try {
+            final SharedPreferences prefs = getGCMPreferences(context);
+            int appVersion = getAppVersion(context);
+            Log.i(TAG, "Saving mobileNumber on app version " + appVersion);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(PROPERTY_MOBILE_NUMBER, phoneNumberUtil.format(phoneNumberUtil.parse(mobileNumber, telephonyManager.getSimCountryIso()), PhoneNumberUtil.PhoneNumberFormat.E164));
+            editor.putInt(PROPERTY_APP_VERSION, appVersion);
+            editor.apply();
+        } catch(Exception e) {
+
+        }
     }
 
     /**

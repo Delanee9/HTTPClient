@@ -33,7 +33,7 @@ public class Registration3Activity extends ActionBarActivity implements ICommon 
     private static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private GoogleCloudMessaging gcm;
-    private  TelephonyManager telephonyManager;
+    private TelephonyManager telephonyManager;
     private PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
     private Context context;
     private String regid;
@@ -200,7 +200,6 @@ public class Registration3Activity extends ActionBarActivity implements ICommon 
         while(cursor.moveToNext()) {
             arrayList.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)) + "\n" + cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
         }
-        List<String> contacts = arrayList;
         cursor.close();
         return new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, arrayList);
     }

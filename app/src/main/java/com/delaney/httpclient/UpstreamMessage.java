@@ -1,5 +1,7 @@
 package com.delaney.httpclient;
 
+import android.os.AsyncTask;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -33,11 +35,7 @@ public class UpstreamMessage {
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_MOBILE, mobile));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpClient.execute(httpPost);
-            if(response.getStatusLine().getStatusCode() != 200) {
-                retry(httpPost);
-            }
+            new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Register - " + e);
         }
@@ -55,11 +53,7 @@ public class UpstreamMessage {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpClient.execute(httpPost);
-            if(response.getStatusLine().getStatusCode() != 200) {
-                retry(httpPost);
-            }
+            new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Unregister - " + e);
         }
@@ -79,11 +73,7 @@ public class UpstreamMessage {
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_FRIENDS_LIST, friendsAdded));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpClient.execute(httpPost);
-            if(response.getStatusLine().getStatusCode() != 200) {
-                retry(httpPost);
-            }
+            new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Add - " + e);
         }
@@ -103,11 +93,7 @@ public class UpstreamMessage {
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_FRIENDS_LIST, friendsRemoved));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpClient.execute(httpPost);
-            if(response.getStatusLine().getStatusCode() != 200) {
-                retry(httpPost);
-            }
+            new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Remove - " + e);
         }
@@ -129,11 +115,7 @@ public class UpstreamMessage {
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_FRIENDS_LIST, friendIds));
             nameValuePairs.add(new BasicNameValuePair("visibility", visibility));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpClient.execute(httpPost);
-            if(response.getStatusLine().getStatusCode() != 200) {
-                retry(httpPost);
-            }
+            new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Visibility - " + e);
         }
@@ -148,28 +130,14 @@ public class UpstreamMessage {
     public static void postUpdate(String gcmId, String location) {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/update");
-
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             nameValuePairs.add(new BasicNameValuePair("location", location));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            HttpResponse response = httpClient.execute(httpPost);
-            if(response.getStatusLine().getStatusCode() != 200) {
-                retry(httpPost);
-            }
+            new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Update - " + e);
-        }
-    }
-
-    private static void retry(HttpPost httpPost) {
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            httpClient.execute(httpPost);
-        } catch(Exception e) {
-            logger.severe("Failed to POST to the server - " + e);
         }
     }
 }
