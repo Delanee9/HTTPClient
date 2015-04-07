@@ -12,10 +12,12 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import java.util.logging.Logger;
+
 public class GcmIntentService extends IntentService implements ICommon {
     private static final int NOTIFICATION_ID = 1;
+    private static final Logger logger = Logger.getLogger(GcmIntentService.class.getName());
     NotificationCompat.Builder builder;
-    private NotificationManager mNotificationManager;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -29,13 +31,7 @@ public class GcmIntentService extends IntentService implements ICommon {
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
 
-        if(!extras.isEmpty()) {  // has effect of unparcelling Bundle
-            /*
-             * Filter messages based on message type. Since it is likely that GCM
-             * will be extended in the future with new message types, just ignore
-             * any message types you're not interested in, or that you don't
-             * recognize.
-             */
+        if(!extras.isEmpty()) {
             if(GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
                 sendNotification("Send error: " + extras.toString());
             } else if(GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
@@ -48,7 +44,8 @@ public class GcmIntentService extends IntentService implements ICommon {
                             + "/5 @ " + SystemClock.elapsedRealtime());
                     try {
                         Thread.sleep(5000);
-                    } catch(InterruptedException e) {
+                    } catch(Exception e) {
+                        logger.warning("Failure in onHandleIntent - " + e);
                     }
                 }
                 Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
@@ -65,7 +62,7 @@ public class GcmIntentService extends IntentService implements ICommon {
     // This is just one simple example of what you might choose to do with
     // a GCM message.
     private void sendNotification(String msg) {
-        mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 
@@ -74,6 +71,4 @@ public class GcmIntentService extends IntentService implements ICommon {
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
-
-
 }

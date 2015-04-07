@@ -13,7 +13,8 @@
         android:protectionLevel="signature"/>
 
     <uses-permission android:name="com.delaney.httpclient.permission.C2D_MESSAGE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -31,45 +32,44 @@
         </activity>
 
         <activity
-            android:name=".Registration.Registration1Activity"
+            android:name=".registration.Registration1Activity"
             android:label="@string/title_activity_registration1">
         </activity>
 
         <activity
-            android:name=".Registration.Registration2Activity"
+            android:name=".registration.Registration2Activity"
             android:label="@string/title_activity_registration2"
-            android:parentActivityName=".Registration.Registration1Activity">
+            android:parentActivityName=".registration.Registration1Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.Registration.Registration1Activity"/>
+                android:value="com.delaney.httpclient.registration.Registration1Activity"/>
         </activity>
 
         <activity
-            android:name=".Registration.Registration3Activity"
+            android:name=".registration.Registration3Activity"
             android:label="@string/title_activity_registration3"
-            android:parentActivityName=".Registration.Registration2Activity">
+            android:parentActivityName=".registration.Registration2Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.Registration.Registration2Activity"/>
+                android:value="com.delaney.httpclient.registration.Registration2Activity"/>
         </activity>
 
         <activity
-            android:name=".Registration.Registration4Activity"
+            android:name=".registration.Registration4Activity"
             android:label="@string/title_activity_registration4"
-            android:parentActivityName=".Registration.Registration3Activity">
+            android:parentActivityName=".registration.Registration3Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.Registration.Registration3Activity"/>
+                android:value="com.delaney.httpclient.registration.Registration3Activity"/>
         </activity>
 
         <activity
-            android:name=".Registration.Registration5Activity"
+            android:name=".registration.Registration5Activity"
             android:label="@string/title_activity_registration5"
-            android:parentActivityName=".Registration.Registration4Activity">
+            android:parentActivityName=".registration.Registration4Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.Registration.Registration4Activity"/>
+                android:value="com.delaney.httpclient.registration.Registration4Activity"/>
         </activity>
     </application>
-
 </manifest>

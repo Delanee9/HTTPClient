@@ -7,6 +7,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+/**
+ * Handles background tasks to send Http POST requests to the backend.
+ */
 class Uplink extends AsyncTask<HttpPost, Void, Integer> {
     protected Integer doInBackground(HttpPost... httpPosts) {
         try {
@@ -14,7 +17,7 @@ class Uplink extends AsyncTask<HttpPost, Void, Integer> {
             HttpResponse response = httpClient.execute(httpPosts[0]);
             return response.getStatusLine().getStatusCode();
         } catch(Exception e) {
-            return 6;
+            return null;
         }
     }
 }

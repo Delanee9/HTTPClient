@@ -1,13 +1,8 @@
 package com.delaney.httpclient;
 
-import android.os.AsyncTask;
-
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
@@ -15,7 +10,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class UpstreamMessage {
-
     private static final String PARAMETER_REG_ID = "regId";
     private static final String PARAMETER_MOBILE = "mobile";
     private static final String PARAMETER_FRIENDS_LIST = "friendsList";
@@ -28,7 +22,6 @@ public class UpstreamMessage {
      * @param mobile String
      */
     public static void postRegister(String gcmId, String mobile) {
-        HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/register");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -47,7 +40,6 @@ public class UpstreamMessage {
      * @param gcmId String
      */
     public static void postUnregister(String gcmId) {
-        HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/unregister");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -66,7 +58,6 @@ public class UpstreamMessage {
      * @param friendsAdded String
      */
     public static void postAdd(String gcmId, String friendsAdded) {
-        HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/add");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -86,7 +77,6 @@ public class UpstreamMessage {
      * @param friendsRemoved String
      */
     public static void postRemove(String gcmId, String friendsRemoved) {
-        HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/remove");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -107,7 +97,6 @@ public class UpstreamMessage {
      * @param friendIds  String
      */
     public static void postVisibility(String gcmId, String visibility, String friendIds) {
-        HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/visibility");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
@@ -128,7 +117,6 @@ public class UpstreamMessage {
      * @param location String
      */
     public static void postUpdate(String gcmId, String location) {
-        HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/update");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);

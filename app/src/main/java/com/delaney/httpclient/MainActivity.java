@@ -9,10 +9,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.delaney.httpclient.Registration.Registration1Activity;
+import com.delaney.httpclient.registration.Registration1Activity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -20,13 +19,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class MainActivity extends ActionBarActivity implements ICommon {
 
     private static final String PROPERTY_REG_ID = "registration_id";
-    private static final String PROPERTY_APP_VERSION = "appVersion";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
-    private TextView mDisplay;
-    private GoogleCloudMessaging gcm;
-    private Context context;
-    private String regid;
 
     /**
      * Returns the App version number.
@@ -48,9 +41,9 @@ public class MainActivity extends ActionBarActivity implements ICommon {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        mDisplay = (TextView) findViewById(R.id.display);
+        TextView mDisplay = (TextView) findViewById(R.id.display);
 
-        context = getApplicationContext();
+        Context context = getApplicationContext();
 
         //delete this--------------------------------------------------------------------------------------------------------------------------------
         Intent intent = new Intent(this, Registration1Activity.class);
@@ -58,8 +51,8 @@ public class MainActivity extends ActionBarActivity implements ICommon {
 
 
         if(checkPlayServices()) {
-            gcm = GoogleCloudMessaging.getInstance(this);
-            regid = getRegistrationId(context);
+            GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+            String regid = getRegistrationId(context);
 
             if(regid.isEmpty()) {
 //                Intent intent = new Intent(this, Registration1Activity.class);
@@ -82,7 +75,6 @@ public class MainActivity extends ActionBarActivity implements ICommon {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
 
     /**
