@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.delaney.httpclient.MainActivity">
+    tools:context="com.delaney.httpclient.AboutUsActivity">
 
     <FrameLayout
         android:id="@+id/container"
@@ -16,15 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:id="@+id/map"
-
-                  android:name="com.google.android.gms.maps.SupportMapFragment"/>
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About us"
+            android:id="@+id/button2"
+            android:layout_gravity="center"/>
     </FrameLayout>
+
 
     <fragment
         android:id="@+id/navigation_drawer"
