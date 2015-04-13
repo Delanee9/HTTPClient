@@ -9,5 +9,8 @@
 
     <string name="next" translatable="true">Continuer</string>
     <string name="phone_number" translatable="true">Phone Number</string>
+    <string name="title_section2">Amis</string>
+    <string name="title_section3">Paramètres</string>
+    <string name="title_section4">Sur</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.delaney.httpclient;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -94,6 +95,26 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
+
+                switch(position) {
+                    case 0:
+                        Intent intent0 = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent0);
+                        break;
+                    case 1:
+                        Intent intent1 = new Intent(getActivity(), FriendsActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case 2:
+                        Intent intent2 = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(intent2);
+                        break;
+                    case 3:
+                        Intent intent3 = new Intent(getActivity(), AboutUsActivity.class);
+                        startActivity(intent3);
+                        break;
+                    default:
+                }
             }
         });
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
@@ -104,6 +125,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
                         getString(R.string.title_section3),
+                        getString(R.string.title_section4),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;

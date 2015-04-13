@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+//import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.registration.Registration1Activity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -24,14 +28,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private static final String PROPERTY_REG_ID = "registration_id";
     private GoogleMap googleMap;
-//    private LocationManager locationManager;
-//    private Location location;
-//    private String provider;
+    private Location location;
+    private ListView listView;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -60,14 +65,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             Log.i("", "No valid Google Play Services APK found.");
         }
 
+        listView = (ListView) findViewById(R.id.navigation_drawer);
+
+//        new ErrorHandling("i dunno", "messed up").execute();
+
         navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//
-//        Criteria criteria = new Criteria();
-//        provider = locationManager.getBestProvider(criteria, false);
-//        location = locationManager.getLastKnownLocation(provider);
+        location = LocationRetrieval.getLastKnownLocation(context);
 
         initialiseMap();
 
@@ -120,8 +125,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     private void setUpMap() {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(12.0f));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Marker"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
     }
 
     @Override

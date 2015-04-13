@@ -55,19 +55,15 @@ public class AboutUsActivity extends ActionBarActivity implements NavigationDraw
     }
 
     void onSectionAttached(int number) {
-        Intent intent;
-        switch(number) {
+        switch (number) {
             case 1:
-                intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                mTitle = getString(R.string.title_section1);
                 break;
             case 2:
-                intent = new Intent(this, FriendsActivity.class);
-                startActivity(intent);
+                mTitle = getString(R.string.title_section2);
                 break;
             case 3:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                mTitle = getString(R.string.title_section3);
                 break;
         }
     }

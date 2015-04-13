@@ -224,9 +224,10 @@
     </string-array>
     <string name="title_activity_main">MainActivity</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section1" translatable="true">Home</string>
+    <string name="title_section2" translatable="true">Friends</string>
+    <string name="title_section3" translatable="true">Settings</string>
+    <string name="title_section4" translatable="true">About</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
