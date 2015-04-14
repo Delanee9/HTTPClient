@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.delaney.httpclient.MainActivity">
+    tools:context="com.delaney.httpclient.activities.MainActivity">
 
     <!--<item-->
     <!--android:id="@+id/action_example"-->

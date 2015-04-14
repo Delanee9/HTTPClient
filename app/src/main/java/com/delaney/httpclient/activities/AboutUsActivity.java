@@ -1,7 +1,6 @@
-package com.delaney.httpclient;
+package com.delaney.httpclient.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.delaney.httpclient.NavigationDrawerFragment;
+import com.delaney.httpclient.R;
 
 
 public class AboutUsActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {

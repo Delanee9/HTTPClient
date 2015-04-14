@@ -1,5 +1,5 @@
 <menu
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.delaney.httpclient.SettingsActivity">
+    tools:context="com.delaney.httpclient.activities.SettingsActivity">
 
 </menu>

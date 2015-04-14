@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.delaney.httpclient.activities.MainActivity;
+
 /**
  * Class to handle starting the application on system startup.
  */

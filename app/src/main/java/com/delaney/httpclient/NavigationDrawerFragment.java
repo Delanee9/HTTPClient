@@ -22,6 +22,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.delaney.httpclient.activities.AboutUsActivity;
+import com.delaney.httpclient.activities.FriendsActivity;
+import com.delaney.httpclient.activities.MainActivity;
+import com.delaney.httpclient.activities.SettingsActivity;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">

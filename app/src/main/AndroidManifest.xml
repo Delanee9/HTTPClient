@@ -1,118 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.delaney.httpclient"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.delaney.httpclient" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
         android:name="com.delaney.httpclient.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
+        android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.delaney.httpclient.permission.C2D_MESSAGE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.delaney.httpclient.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but are recommended.
     -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".registration.Registration1Activity"
-            android:label="@string/title_activity_registration1">
+            android:label="@string/title_activity_registration1" >
         </activity>
         <activity
             android:name=".registration.Registration2Activity"
             android:label="@string/title_activity_registration2"
-            android:parentActivityName=".registration.Registration1Activity">
+            android:parentActivityName=".registration.Registration1Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.registration.Registration1Activity"/>
+                android:value="com.delaney.httpclient.registration.Registration1Activity" />
         </activity>
         <activity
             android:name=".registration.Registration3Activity"
             android:label="@string/title_activity_registration3"
-            android:parentActivityName=".registration.Registration2Activity">
+            android:parentActivityName=".registration.Registration2Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.registration.Registration2Activity"/>
+                android:value="com.delaney.httpclient.registration.Registration2Activity" />
         </activity>
         <activity
             android:name=".registration.Registration4Activity"
             android:label="@string/title_activity_registration4"
-            android:parentActivityName=".registration.Registration3Activity">
+            android:parentActivityName=".registration.Registration3Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.registration.Registration3Activity"/>
+                android:value="com.delaney.httpclient.registration.Registration3Activity" />
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main">
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".FriendsActivity"
+            android:name=".activities.FriendsActivity"
             android:label="@string/title_activity_friends"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.MainActivity"/>
+                android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.MainActivity"/>
+                android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".AboutUsActivity"
+            android:name=".activities.AboutUsActivity"
             android:label="@string/title_activity_about_us"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.delaney.httpclient.MainActivity"/>
+                android:value=".activities.MainActivity" />
         </activity>
 
         <receiver
             android:name=".StartOnBootReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
             android:name=".GcmIntentService"
-            android:exported="false">
+            android:exported="false" >
         </service>
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
     </application>
 
 </manifest>

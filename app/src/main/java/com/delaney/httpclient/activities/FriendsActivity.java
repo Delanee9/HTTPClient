@@ -1,4 +1,4 @@
-package com.delaney.httpclient;
+package com.delaney.httpclient.activities;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -26,6 +26,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.delaney.httpclient.NavigationDrawerFragment;
+import com.delaney.httpclient.R;
+import com.delaney.httpclient.UpstreamMessage;
 import com.delaney.httpclient.databaseManagement.Database;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 

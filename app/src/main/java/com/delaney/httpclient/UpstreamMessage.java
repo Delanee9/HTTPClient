@@ -1,5 +1,7 @@
 package com.delaney.httpclient;
 
+import com.delaney.httpclient.errorHandling.ErrorHandling;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -31,6 +33,7 @@ public class UpstreamMessage {
             new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Register - " + e);
+            new ErrorHandling("Failure in POST Register", e.toString()).execute();
         }
     }
 
@@ -48,6 +51,7 @@ public class UpstreamMessage {
             new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Unregister - " + e);
+            new ErrorHandling("Failure in POST Unregister", e.toString()).execute();
         }
     }
 
@@ -67,6 +71,7 @@ public class UpstreamMessage {
             new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Add - " + e);
+            new ErrorHandling("Failure in POST Add", e.toString()).execute();
         }
     }
 
@@ -86,6 +91,7 @@ public class UpstreamMessage {
             new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Remove - " + e);
+            new ErrorHandling("Failure in POST Remove", e.toString()).execute();
         }
     }
 
@@ -107,6 +113,7 @@ public class UpstreamMessage {
             new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Visibility - " + e);
+            new ErrorHandling("Failure in POST Visibility", e.toString()).execute();
         }
     }
 
@@ -126,6 +133,7 @@ public class UpstreamMessage {
             new Uplink().execute(httpPost);
         } catch(Exception e) {
             logger.warning("Failed to POST Update - " + e);
+            new ErrorHandling("Failure in POST Update", e.toString()).execute();
         }
     }
 }

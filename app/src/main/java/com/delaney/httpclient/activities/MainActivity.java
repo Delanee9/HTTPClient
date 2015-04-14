@@ -1,4 +1,4 @@
-package com.delaney.httpclient;
+package com.delaney.httpclient.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,10 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 //import com.delaney.httpclient.errorHandling.ErrorHandling;
+import com.delaney.httpclient.LocationRetrieval;
+import com.delaney.httpclient.NavigationDrawerFragment;
+import com.delaney.httpclient.R;
+import com.delaney.httpclient.UpstreamMessage;
+import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.registration.Registration1Activity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -28,7 +32,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -61,23 +64,24 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 Intent intent = new Intent(this, Registration1Activity.class);
                 startActivity(intent);
             }
+
+            listView = (ListView) findViewById(R.id.navigation_drawer);
+
+            navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+            mTitle = getTitle();
+
+            location = LocationRetrieval.getLastKnownLocation(context);
+            String locationUpdate = String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude());
+            UpstreamMessage.postUpdate(regid, locationUpdate);
+
+            initialiseMap();
+
+            // Set up the drawer.
+            navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
         } else {
             Log.i("", "No valid Google Play Services APK found.");
         }
-
-        listView = (ListView) findViewById(R.id.navigation_drawer);
-
-//        new ErrorHandling("i dunno", "messed up").execute();
-
-        navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        location = LocationRetrieval.getLastKnownLocation(context);
-
-        initialiseMap();
-
-        // Set up the drawer.
-        navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override
