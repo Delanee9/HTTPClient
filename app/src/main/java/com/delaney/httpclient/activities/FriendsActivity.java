@@ -126,19 +126,19 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
         fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
     }
 
-    void onSectionAttached(int number) {
-        switch(number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
+//    void onSectionAttached(int number) {
+//        switch(number) {
+//            case 1:
+//                mTitle = getString(R.string.title_section1);
+//                break;
+//            case 2:
+//                mTitle = getString(R.string.title_section2);
+//                break;
+//            case 3:
+//                mTitle = getString(R.string.title_section3);
+//                break;
+//        }
+//    }
 
     void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -247,7 +247,7 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((FriendsActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+//            ((FriendsActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 }

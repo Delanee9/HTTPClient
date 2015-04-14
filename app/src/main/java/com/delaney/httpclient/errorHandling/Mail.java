@@ -29,7 +29,7 @@ class Mail extends javax.mail.Authenticator {
     private String subject;
     private String body;
 
-    public Mail() {
+    private Mail() {
         host = "smtp.gmail.com";        // default smtp server
         port = "465";                   // default smtp port
         _sport = "465";                 // default socketfactory port
@@ -60,30 +60,28 @@ class Mail extends javax.mail.Authenticator {
         password = pass;
     }
 
-    public boolean send() throws Exception {
+    public void send() throws Exception {
         Properties props = _setProperties();
 
-        if(!user.equals("") && !password.equals("") && to.length > 0 && !from.equals("") && !subject.equals("") && !body.equals("")) {
+        if(!user.isEmpty() && !password.isEmpty() && to.length > 0 && !from.isEmpty() && !subject.isEmpty() && !body.isEmpty()) {
             Session session = Session.getInstance(props, this);
-            MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(from));
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
             InternetAddress[] addressTo = new InternetAddress[to.length];
 
             for(int i = 0; i < to.length; i++) {
                 addressTo[i] = new InternetAddress(to[i]);
             }
 
-            msg.setRecipients(MimeMessage.RecipientType.TO, addressTo);
-            msg.setSubject(subject);
-            msg.setSentDate(new Date());
+            message.setRecipients(MimeMessage.RecipientType.TO, addressTo);
+            message.setSubject(subject);
+            message.setSentDate(new Date());
             BodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText(body);
             _multipart.addBodyPart(messageBodyPart);
-            msg.setContent(_multipart);
-            Transport.send(msg);
-            return true;
+            message.setContent(_multipart);
+            Transport.send(message);
         }
-        return false;
     }
 
     @Override

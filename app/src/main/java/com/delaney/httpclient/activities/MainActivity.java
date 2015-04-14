@@ -17,14 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-//import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.LocationRetrieval;
 import com.delaney.httpclient.NavigationDrawerFragment;
 import com.delaney.httpclient.R;
 import com.delaney.httpclient.UpstreamMessage;
-import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.registration.Registration1Activity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -38,7 +35,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private static final String PROPERTY_REG_ID = "registration_id";
     private GoogleMap googleMap;
     private Location location;
-    private ListView listView;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -64,8 +60,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 Intent intent = new Intent(this, Registration1Activity.class);
                 startActivity(intent);
             }
-
-            listView = (ListView) findViewById(R.id.navigation_drawer);
 
             navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
             mTitle = getTitle();
@@ -98,19 +92,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
     }
 
-    void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
+//    void onSectionAttached(int number) {
+//        switch(number) {
+//            case 1:
+//                mTitle = getString(R.string.title_section1);
+//                break;
+//            case 2:
+//                mTitle = getString(R.string.title_section2);
+//                break;
+//            case 3:
+//                mTitle = getString(R.string.title_section3);
+//                break;
+//        }
+//    }
 
     void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -236,7 +230,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+//            ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 }

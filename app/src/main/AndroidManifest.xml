@@ -59,7 +59,7 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,7 +76,7 @@
 
         <activity
             android:name=".activities.FriendsActivity"
-            android:label="@string/title_activity_friends"
+            android:label="@string/title_section2"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -84,7 +84,7 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings"
+            android:label="@string/title_section3"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -92,7 +92,7 @@
         </activity>
         <activity
             android:name=".activities.AboutUsActivity"
-            android:label="@string/title_activity_about_us"
+            android:label="@string/title_section4"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
