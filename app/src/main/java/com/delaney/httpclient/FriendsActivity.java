@@ -1,25 +1,66 @@
 package com.delaney.httpclient;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.delaney.httpclient.databaseManagement.Database;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class FriendsActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private static final String PROPERTY_REG_ID = "registration_id";
+    private static final String PROPERTY_APP_VERSION = "appVersion";
+    private final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
     private NavigationDrawerFragment navigationDrawerFragment;
+    private List<String> selectedItems = new ArrayList<String>();
+    private ListView listView;
+    private TelephonyManager telephonyManager;
+    private Database database;
+    private Context context;
 
     private CharSequence mTitle;
+
+    /**
+     * Returns the App version number.
+     *
+     * @param context Context
+     * @return int
+     */
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch(PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +72,36 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
         mTitle = getTitle();
 
         navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-    }
 
+        context = getApplicationContext();
+
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setAdapter(getContacts(this.getContentResolver()));
+
+        database = new Database(context);
+
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
+                try {
+                    String[] number = listView.getAdapter().getItem(position).toString().split("\\n");
+                    String formattedNumber = phoneNumberUtil.format(phoneNumberUtil.parse(number[1], telephonyManager.getSimCountryIso()), PhoneNumberUtil.PhoneNumberFormat.E164);
+                    if(selectedItems.contains(formattedNumber)) {
+                        selectedItems.remove(formattedNumber);
+                        database.removeContactDataDB(formattedNumber);
+                    } else {
+                        selectedItems.add(formattedNumber);
+                        database.setNameDB(number[0], formattedNumber);
+                    }
+                } catch(Exception e) {
+                    Toast.makeText(context, "error - " + e, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,7 +124,7 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
     }
 
     void onSectionAttached(int number) {
-        switch (number) {
+        switch(number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
                 break;
@@ -83,6 +152,62 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Returns a list of contacts stored on the phone.
+     *
+     * @param contentResolver ContentResolver
+     * @return ArrayAdapter<String>
+     */
+    private ArrayAdapter<String> getContacts(ContentResolver contentResolver) {
+        Cursor cursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        List<String> arrayList = new ArrayList<String>();
+        while(cursor.moveToNext()) {
+            arrayList.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)) + "\n" + cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+        }
+        cursor.close();
+        return new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, arrayList);
+    }
+
+    public void update(View view) {
+        String numberString = "";
+        for(String item : selectedItems) {
+            numberString = numberString + item + ",";
+        }
+        UpstreamMessage.postAdd(getRegistrationId(context), numberString);
+    }
+
+    /**
+     * Returns Registration ID from the shared preferences.
+     *
+     * @param context Context
+     * @return String
+     */
+    private String getRegistrationId(Context context) {
+        final SharedPreferences prefs = getGCMPreferences(context);
+        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
+        if(registrationId.isEmpty()) {
+            Log.i("", "Registration not found.");
+            return "";
+        }
+        int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int currentVersion = getAppVersion(context);
+        if(registeredVersion != currentVersion) {
+            Log.i("", "App version changed.");
+            return "";
+        }
+        return registrationId;
+    }
+
+    /**
+     * Returns the shared preferences stored on the device.
+     *
+     * @param context Context
+     * @return SharedPreferences
+     */
+    private SharedPreferences getGCMPreferences(Context context) {
+        return getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
     }
 
     /**
@@ -122,5 +247,4 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
             ((FriendsActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }

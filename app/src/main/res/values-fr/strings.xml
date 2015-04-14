@@ -3,12 +3,12 @@
     <string name="welcome" translatable="true">Bienvenue à Pal-2-Pal</string>
     <string name="regmsg1" translatable="true">• Votre numéro de téléphone est votre identifiant (ID)</string>
     <string name="regmsg2" translatable="true">• Vos contacts sont déjà ici</string>
-    <string name="regmsg3" translatable="true">Select your country code, enter your phone number and click continue:</string>
+    <string name="regmsg3" translatable="true">Choisissez votre pays , entrez votre numéro de téléphone et cliquez sur continue</string>
     <string name="regmsg4" translatable="true">Select friends to connect with:</string>
     <string name="congratulations" translatable="true">Congratulations you are now ready to start sharing</string>
 
     <string name="next" translatable="true">Continuer</string>
-    <string name="phone_number" translatable="true">Phone Number</string>
+    <string name="phone_number" translatable="true">Numéro de téléphone</string>
     <string name="title_section2">Amis</string>
     <string name="title_section3">Paramètres</string>
     <string name="title_section4">Sur</string>
