@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.delaney.httpclient.activities.MainActivity;
+import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.util.logging.Logger;
@@ -35,33 +36,20 @@ public class GcmIntentService extends IntentService implements ICommon {
         if(!extras.isEmpty()) {
             if(GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
                 sendNotification("Send error: " + extras.toString());
+                new ErrorHandling("message", "messageTypeSendError");
             } else if(GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
                 sendNotification("Deleted messages on server: " + extras.toString());
-                // If it's a regular GCM message, do some work.
+                new ErrorHandling("message", "messageTypeDeleted");
             } else if(GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                // This loop represents the service doing some work.
-                for(int i = 0; i < 5; i++) {
-                    Log.i(TAG, "Working... " + (i + 1)
-                            + "/5 @ " + SystemClock.elapsedRealtime());
-                    try {
-                        Thread.sleep(5000);
-                    } catch(Exception e) {
-                        logger.warning("Failure in onHandleIntent - " + e);
-                    }
-                }
-                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
-                // Post notification of received message.
-                sendNotification("Received: " + extras.toString());
-                Log.i(TAG, "Received: " + extras.toString());
+                new ErrorHandling("message", "messageTypeMessage");
+            } else {
+                new ErrorHandling("message", "other");
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    // Put the message into a notification and post it.
-    // This is just one simple example of what you might choose to do with
-    // a GCM message.
     private void sendNotification(String msg) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 

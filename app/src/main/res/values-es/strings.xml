@@ -5,7 +5,7 @@
     <string name="regmsg2" translatable="true">• Los contactos ya están aquí</string>
     <string name="regmsg3" translatable="true">Selecciona tu país , introduce tu número de teléfono y haz clic en continuar</string>
     <string name="regmsg4" translatable="true">Select friends to connect with:</string>
-    <string name="congratulations" translatable="true">Congratulations you are now ready to start sharing</string>
+    <string name="congratulations" translatable="true">¡Felicidades! Estás listo para empezar a compartir.</string>
 
     <string name="next" translatable="true">Continuar</string>
     <string name="phone_number" translatable="true">Número de teléfono</string>

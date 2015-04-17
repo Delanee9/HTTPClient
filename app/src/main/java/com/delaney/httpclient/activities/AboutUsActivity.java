@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.delaney.httpclient.NavigationDrawerFragment;
 import com.delaney.httpclient.R;
 
-
 public class AboutUsActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment navigationDrawerFragment;
@@ -39,9 +38,6 @@ public class AboutUsActivity extends ActionBarActivity implements NavigationDraw
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(!navigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.menu_about_us, menu);
             restoreActionBar();
             return true;
@@ -55,20 +51,6 @@ public class AboutUsActivity extends ActionBarActivity implements NavigationDraw
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
     }
-
-//    void onSectionAttached(int number) {
-//        switch (number) {
-//            case 1:
-//                mTitle = getString(R.string.title_section1);
-//                break;
-//            case 2:
-//                mTitle = getString(R.string.title_section2);
-//                break;
-//            case 3:
-//                mTitle = getString(R.string.title_section3);
-//                break;
-//        }
-//    }
 
     void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -121,8 +103,6 @@ public class AboutUsActivity extends ActionBarActivity implements NavigationDraw
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-//            ((AboutUsActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }

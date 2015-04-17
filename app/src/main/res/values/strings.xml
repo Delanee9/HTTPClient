@@ -11,18 +11,18 @@
     <string name="welcome" translatable="true">Welcome to Pal-2-Pal</string>
     <string name="regmsg1" translatable="true">• Your phone number is your ID</string>
     <string name="regmsg2" translatable="true">• Your contacts are already here</string>
-    <string name="regmsg3" translatable="true">Select your country code, enter your phone number and click continue:</string>
-    <string name="regmsg4" translatable="true">Select friends to connect with:</string>
+    <string name="regmsg3">Select your country code, enter your phone number and click continue:</string>
+    <string name="regmsg4">Select friends to connect with:</string>
     <string name="congratulations" translatable="true">Congratulations you are now ready to start sharing</string>
 
-    <string name="settings" translatable="true">Settings</string>
+    <string name="settings" translatable="false">Settings</string>
 
     <string name="next" translatable="true">Continue</string>
     <string name="phone_number" translatable="true">Phone Number</string>
 
     <string name="action_settings" translatable="false">settings</string>
 
-    <string-array name="PhoneCodes" >
+    <string-array name="PhoneCodes" translatable="false">
         <item>+1</item>
         <item>+7</item>
         <item>+20</item>
@@ -222,23 +222,23 @@
         <item>+996</item>
         <item>+998</item>
     </string-array>
-    <string name="title_activity_main">Pal-2-Pal</string>
+    <string name="title_activity_main" translatable="false">Pal-2-Pal</string>
 
-    <string name="title_section1" translatable="true">Home</string>
+    <string name="title_section1" translatable="false">Home</string>
     <string name="title_section2" translatable="true">Friends</string>
     <string name="title_section3" translatable="true">Settings</string>
     <string name="title_section4" translatable="true">About</string>
 
-    <string name="update" translatable="true">Update</string>
+    <string name="update" translatable="false">Update</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_friends">FriendsActivity</string>
+    <string name="action_example" translatable="false">Example action</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="title_activity_friends" translatable="false">FriendsActivity</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
+    <string name="title_activity_about_us" translatable="false">AboutUsActivity</string>
 </resources>

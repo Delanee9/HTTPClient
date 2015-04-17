@@ -43,7 +43,7 @@ public class UpstreamMessage {
      * @param gcmId String
      */
     public static void postUnregister(String gcmId) {
-        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/unregister");
+        HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/unregister");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));

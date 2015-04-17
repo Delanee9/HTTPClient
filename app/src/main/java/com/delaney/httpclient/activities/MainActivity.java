@@ -1,6 +1,7 @@
 package com.delaney.httpclient.activities;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,24 +18,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.delaney.httpclient.LocationRetrieval;
 import com.delaney.httpclient.NavigationDrawerFragment;
 import com.delaney.httpclient.R;
 import com.delaney.httpclient.UpstreamMessage;
+import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.registration.Registration1Activity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final String PROPERTY_REG_ID = "registration_id";
     private GoogleMap googleMap;
-    private Location location;
+    private Location currentLocation;
+    private LocationRequest locationRequest;
+    private GoogleApiClient googleApiClient;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -64,25 +75,75 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
             mTitle = getTitle();
 
-            location = LocationRetrieval.getLastKnownLocation(context);
-            String locationUpdate = String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude());
-            UpstreamMessage.postUpdate(regid, locationUpdate);
+            createLocationRequest();
+
+            googleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
+            googleApiClient.connect();
 
             initialiseMap();
 
-            // Set up the drawer.
             navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         } else {
-            Log.i("", "No valid Google Play Services APK found.");
+           new ErrorHandling("MainActivity onCreate", "No valid Google Play Services APK found.");
         }
+    }
+
+    void createLocationRequest() {
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(300000);
+        locationRequest.setFastestInterval(150000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        googleApiClient.disconnect();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        startLocationUpdates();
+    }
+
+    void startLocationUpdates() {
+        PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(getApplicationContext(), "OnConnectionSuspended", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        currentLocation = location;
+        setUpMap();
+        String locationUpdate = String.valueOf(currentLocation.getLatitude()) + "," + String.valueOf(currentLocation.getLongitude());
+        UpstreamMessage.postUpdate(getRegistrationId(getApplicationContext()), locationUpdate);
+        Toast.makeText(getApplicationContext(), "changed location", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         checkPlayServices();
-        initialiseMap();
+        if(googleApiClient.isConnected()) {
+            startLocationUpdates();
+            setUpMap();
+        }
     }
 
     @Override
@@ -91,20 +152,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
     }
-
-//    void onSectionAttached(int number) {
-//        switch(number) {
-//            case 1:
-//                mTitle = getString(R.string.title_section1);
-//                break;
-//            case 2:
-//                mTitle = getString(R.string.title_section2);
-//                break;
-//            case 3:
-//                mTitle = getString(R.string.title_section3);
-//                break;
-//        }
-//    }
 
     void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -123,9 +170,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     private void setUpMap() {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Marker"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+        if(currentLocation != null) {
+            googleMap.clear();
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("Marker"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+        } else {
+            Location newLocation = LocationRetrieval.getLastKnownLocation(getApplicationContext());
+            googleMap.clear();
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(newLocation.getLatitude(), newLocation.getLongitude())).title("Marker"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(newLocation.getLatitude(), newLocation.getLongitude()), 15));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+        }
     }
 
     @Override
@@ -230,7 +286,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-//            ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 }
