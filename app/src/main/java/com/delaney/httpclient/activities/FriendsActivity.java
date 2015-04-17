@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.delaney.httpclient.Encryption;
 import com.delaney.httpclient.NavigationDrawerFragment;
 import com.delaney.httpclient.R;
 import com.delaney.httpclient.UpstreamMessage;
@@ -97,7 +98,7 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
                         database.removeContactDataDB(formattedNumber);
                     } else {
                         selectedItems.add(formattedNumber);
-                        database.setNameDB(number[0], formattedNumber);
+                        database.setNameDB(number[0], formattedNumber, Encryption.hashFunction(formattedNumber));
                     }
                 } catch(Exception e) {
                     Toast.makeText(context, "error - " + e, Toast.LENGTH_SHORT).show();
