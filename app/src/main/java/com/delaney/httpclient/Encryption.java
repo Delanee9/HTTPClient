@@ -4,9 +4,9 @@ import com.delaney.httpclient.errorHandling.ErrorHandling;
 
 import java.security.MessageDigest;
 
-class Encryption {
+public class Encryption {
 
-    public static String encryptFunction(String input) {
+    public static String hashFunction(String input) {
         try {
             MessageDigest messageDigest = java.security.MessageDigest.getInstance("MD5");
             messageDigest.update(input.getBytes());
