@@ -1,20 +1,21 @@
 package com.delaney.httpclient;
 
-import android.content.BroadcastReceiver;
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.WakefulBroadcastReceiver;
 
 import com.delaney.httpclient.activities.MainActivity;
 
-public class LocationReceiver extends BroadcastReceiver {
-    public LocationReceiver() {
-    }
-
+/**
+ * Class to handle background location updates.
+ */
+public class LocationReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
-        context. startService(new Intent(context, MainActivity.class));
-        throw new UnsupportedOperationException("Not yet implemented");
+        ComponentName componentName = new ComponentName(context.getPackageName(), MainActivity.class.getName());
+        startWakefulService(context, (intent.setComponent(componentName)));
+        setResultCode(Activity.RESULT_OK);
     }
 }

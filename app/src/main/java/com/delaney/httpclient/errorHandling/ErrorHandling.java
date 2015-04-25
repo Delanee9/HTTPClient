@@ -8,8 +8,7 @@ public class ErrorHandling extends AsyncTask<String, Integer, Boolean> implement
     private final Mail mail = new Mail(EMAIL, PASSWORD);
 
     public ErrorHandling(String subject, String exception) {
-        String toArr[] = {EMAIL};
-        mail.setTo(toArr);
+        mail.setTo(EMAIL);
         mail.setFrom(EMAIL);
         mail.setSubject(subject);
         mail.setBody(subject + " - " + exception);

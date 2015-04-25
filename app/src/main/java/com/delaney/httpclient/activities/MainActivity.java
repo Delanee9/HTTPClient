@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import com.delaney.httpclient.LocationRetrieval;
 import com.delaney.httpclient.NavigationDrawerFragment;
 import com.delaney.httpclient.R;
 import com.delaney.httpclient.UpstreamMessage;
+import com.delaney.httpclient.databaseManagement.Database;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.registration.Registration1Activity;
 import com.google.android.gms.common.ConnectionResult;
@@ -39,6 +41,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final String PROPERTY_REG_ID = "registration_id";
@@ -59,33 +63,37 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        Context context = getApplicationContext();
+            Context context = getApplicationContext();
 
-        if(checkPlayServices()) {
-            String regid = getRegistrationId(context);
+            if(checkPlayServices()) {
+                String regid = getRegistrationId(context);
 
-            if(regid.isEmpty()) {
-                Intent intent = new Intent(this, Registration1Activity.class);
-                startActivity(intent);
+                if(regid.isEmpty()) {
+                    Intent intent = new Intent(this, Registration1Activity.class);
+                    startActivity(intent);
+                }
+
+                navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+                mTitle = getTitle();
+
+                createLocationRequest();
+
+                googleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
+                googleApiClient.connect();
+
+                initialiseMap();
+
+                navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+            } else {
+                new ErrorHandling("MainActivity onCreate", "No valid Google Play Services APK found.").execute();
             }
-
-            navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-            mTitle = getTitle();
-
-            createLocationRequest();
-
-            googleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
-            googleApiClient.connect();
-
-            initialiseMap();
-
-            navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        } else {
-           new ErrorHandling("MainActivity onCreate", "No valid Google Play Services APK found.");
+        } catch(Exception e) {
+            new ErrorHandling("Failure in MainActivity onCreate", e.toString()).execute();
         }
     }
 
@@ -128,7 +136,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         setUpMap();
         String locationUpdate = String.valueOf(currentLocation.getLatitude()) + "," + String.valueOf(currentLocation.getLongitude());
         UpstreamMessage.postUpdate(getRegistrationId(getApplicationContext()), locationUpdate);
-        Toast.makeText(getApplicationContext(), "changed location", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -148,7 +155,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
     }
@@ -157,7 +163,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        actionBar.setTitle(getString(R.string.title_section1));
     }
 
     private void initialiseMap() {
@@ -172,24 +178,31 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private void setUpMap() {
         if(currentLocation != null) {
             googleMap.clear();
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("Marker"));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())));
+            friendLocation();
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
         } else {
             Location newLocation = LocationRetrieval.getLastKnownLocation(getApplicationContext());
             googleMap.clear();
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(newLocation.getLatitude(), newLocation.getLongitude())).title("Marker"));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(newLocation.getLatitude(), newLocation.getLongitude())));
+            friendLocation();
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(newLocation.getLatitude(), newLocation.getLongitude()), 15));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+        }
+    }
+
+    private void friendLocation() {
+        List<String> friendLocations = new Database(getApplicationContext()).getContactListDB();
+        for(String item : friendLocations) {
+            String [] data = item.split(",");
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(data[1]), Double.valueOf(data[2])))).setTitle(data[0]);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(!navigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
@@ -199,11 +212,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
 

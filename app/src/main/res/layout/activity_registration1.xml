@@ -17,8 +17,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:text="@string/welcome"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ff212121"/>
+        android:textSize="20sp"
+        android:textColor="#212121"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -27,8 +27,9 @@
         android:layout_above="@+id/textView3"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="41dp"
+        android:textSize="20sp"
         android:text="@string/regmsg1"
-        android:textColor="#ff212121"/>
+        android:textColor="#212121"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -39,8 +40,9 @@
         android:layout_alignRight="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
         android:layout_centerVertical="true"
+        android:textSize="20sp"
         android:text="@string/regmsg2"
-        android:textColor="#ff212121"/>
+        android:textColor="#212121"/>
 
     <Button
         android:id="@+id/button"
@@ -48,8 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
         android:onClick="next"
         android:text="@string/next"
-        android:textColor="#727272"/>
+        android:background="#455A64"
+        android:textColor="#CFD8DC"/>
 </RelativeLayout>

@@ -31,6 +31,7 @@ import com.delaney.httpclient.NavigationDrawerFragment;
 import com.delaney.httpclient.R;
 import com.delaney.httpclient.UpstreamMessage;
 import com.delaney.httpclient.databaseManagement.Database;
+import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
     private final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
     private NavigationDrawerFragment navigationDrawerFragment;
     private List<String> selectedItems = new ArrayList<String>();
+    private List<String> storedFriends = new ArrayList<String>();
     private ListView listView;
     private TelephonyManager telephonyManager;
     private Database database;
@@ -68,43 +70,51 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_friends);
 
-        navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+            navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-        mTitle = getTitle();
+            mTitle = getTitle();
 
-        navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+            navigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        context = getApplicationContext();
+            context = getApplicationContext();
 
-        listView = (ListView) findViewById(R.id.listView);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        listView.setAdapter(getContacts(this.getContentResolver()));
+            listView = (ListView) findViewById(R.id.listView);
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            listView.setAdapter(getContacts(this.getContentResolver()));
 
-        database = new Database(context);
 
-        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
-                try {
-                    String[] number = listView.getAdapter().getItem(position).toString().split("\\n");
-                    String formattedNumber = phoneNumberUtil.format(phoneNumberUtil.parse(number[1], telephonyManager.getSimCountryIso()), PhoneNumberUtil.PhoneNumberFormat.E164);
-                    if(selectedItems.contains(formattedNumber)) {
-                        selectedItems.remove(formattedNumber);
-                        database.removeContactDataDB(formattedNumber);
-                    } else {
-                        selectedItems.add(formattedNumber);
-                        database.setNameDB(number[0], formattedNumber, Encryption.hashFunction(formattedNumber));
+            database = new Database(context);
+
+            setCheckedItems();
+
+            telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
+                    try {
+                        String[] number = listView.getAdapter().getItem(position).toString().split("\\n");
+                        String formattedNumber = phoneNumberUtil.format(phoneNumberUtil.parse(number[1], telephonyManager.getSimCountryIso()), PhoneNumberUtil.PhoneNumberFormat.E164);
+                        if(selectedItems.contains(formattedNumber)) {
+                            selectedItems.remove(formattedNumber);
+                            database.removeContactDataDB(formattedNumber);
+                        } else {
+                            selectedItems.add(formattedNumber);
+                            database.setNameDB(number[0], formattedNumber, Encryption.hashFunction(formattedNumber));
+                        }
+                    } catch(Exception e) {
+                        Toast.makeText(context, "error - " + e, Toast.LENGTH_SHORT).show();
                     }
-                } catch(Exception e) {
-                    Toast.makeText(context, "error - " + e, Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
+        } catch(Exception e) {
+        new ErrorHandling("Failure in FriendsActivity onCreate", e.toString()).execute();
+        }
     }
 
     @Override
@@ -131,14 +141,11 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        actionBar.setTitle(getString(R.string.title_section2));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
@@ -160,10 +167,18 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
         return new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, arrayList);
     }
 
+    private void setCheckedItems() {
+//        storedFriends = database.getContactListDB();
+//        for(int i = 0; i < listView.getCount(); i++) {
+//            if(storedFriends.contains(listView.getItemAtPosition(i).toString()))
+//            listView.setItemChecked(i, true);
+//        }
+    }
+
     public void update(View view) {
         String numberString = "";
         for(String item : selectedItems) {
-            numberString = numberString + item + ",";
+            numberString = numberString + Encryption.hashFunction(item) + ",";
         }
         UpstreamMessage.postAdd(getRegistrationId(context), numberString);
     }

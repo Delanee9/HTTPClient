@@ -13,7 +13,8 @@
     <string name="regmsg2" translatable="true">• Your contacts are already here</string>
     <string name="regmsg3">Select your country code, enter your phone number and click continue:</string>
     <string name="regmsg4">Select friends to connect with:</string>
-    <string name="congratulations" translatable="true">Congratulations you are now ready to start sharing</string>
+    <string name="congratulations" translatable="true">Congratulations you are now ready to start sharing.</string>
+    <string name="map_msg" translatable="true">Friends near you:</string>
 
     <string name="settings" translatable="false">Settings</string>
 
@@ -224,12 +225,10 @@
     </string-array>
     <string name="title_activity_main" translatable="false">Pal-2-Pal</string>
 
-    <string name="title_section1" translatable="false">Home</string>
+    <string name="title_section1" translatable="true">Home</string>
     <string name="title_section2" translatable="true">Friends</string>
-    <string name="title_section3" translatable="true">Settings</string>
-    <string name="title_section4" translatable="true">About</string>
 
-    <string name="update" translatable="false">Update</string>
+    <string name="update">Save</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>

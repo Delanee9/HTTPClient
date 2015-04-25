@@ -4,13 +4,13 @@
     <string name="regmsg1" translatable="true">• Il tuo numero di telefono è l\'identificativo (ID)</string>
     <string name="regmsg2" translatable="true">• I contatti sono già qui</string>
     <string name="regmsg3" translatable="true">Scegli il tuo paese , inserisci il tuo numero di telefono e fare clic su continua</string>
-    <string name="regmsg4" translatable="true">Select friends to connect with:</string>
-    <string name="congratulations" translatable="true">Congratulations you are now ready to start sharing</string>
+    <string name="regmsg4" translatable="true">Selezionare gli amici che si desidera collegare:</string>
+    <string name="congratulations" translatable="true">Congratulazioni , sei pronto per iniziare la condivisione.</string>
 
     <string name="next" translatable="true">Continua</string>
     <string name="phone_number" translatable="true">Numero di telefono</string>
-    <string name="title_section2">Amici</string>
-    <string name="title_section3">Impostazioni</string>
-    <string name="title_section4">Su</string>
-
+    <string name="title_section2" translatable="true">Amici</string>
+    <string name="title_section1" translatable="true">Schermata iniziale</string>
+    <string name="map_msg">Amici vicini a dove siete voi:</string>
+    <string name="update">Salvare</string>
 </resources>

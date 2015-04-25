@@ -22,10 +22,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.delaney.httpclient.activities.AboutUsActivity;
 import com.delaney.httpclient.activities.FriendsActivity;
 import com.delaney.httpclient.activities.MainActivity;
-import com.delaney.httpclient.activities.SettingsActivity;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -92,10 +90,8 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,14 +106,6 @@ public class NavigationDrawerFragment extends Fragment {
                         Intent intent1 = new Intent(getActivity(), FriendsActivity.class);
                         startActivity(intent1);
                         break;
-                    case 2:
-                        Intent intent2 = new Intent(getActivity(), SettingsActivity.class);
-                        startActivity(intent2);
-                        break;
-                    case 3:
-                        Intent intent3 = new Intent(getActivity(), AboutUsActivity.class);
-                        startActivity(intent3);
-                        break;
                     default:
                 }
             }
@@ -129,8 +117,6 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;

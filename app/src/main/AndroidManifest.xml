@@ -29,11 +29,13 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".registration.Registration1Activity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_registration1" >
         </activity>
         <activity
             android:name=".registration.Registration2Activity"
             android:label="@string/title_activity_registration2"
+            android:screenOrientation="portrait"
             android:parentActivityName=".registration.Registration1Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -42,6 +44,7 @@
         <activity
             android:name=".registration.Registration3Activity"
             android:label="@string/title_activity_registration3"
+            android:screenOrientation="portrait"
             android:parentActivityName=".registration.Registration2Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -50,6 +53,7 @@
         <activity
             android:name=".registration.Registration4Activity"
             android:label="@string/title_activity_registration4"
+            android:screenOrientation="portrait"
             android:parentActivityName=".registration.Registration3Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -57,6 +61,7 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,22 +80,7 @@
         <activity
             android:name=".activities.FriendsActivity"
             android:label="@string/title_section2"
-            android:parentActivityName=".activities.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.SettingsActivity"
-            android:label="@string/title_section3"
-            android:parentActivityName=".activities.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.AboutUsActivity"
-            android:label="@string/title_section4"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

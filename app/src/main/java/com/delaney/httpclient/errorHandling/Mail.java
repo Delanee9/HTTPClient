@@ -24,7 +24,7 @@ class Mail extends javax.mail.Authenticator {
     private final Multipart _multipart;
     private String user;
     private String password;
-    private String[] to;
+    private String to;
     private String from;
     private String subject;
     private String body;
@@ -63,17 +63,13 @@ class Mail extends javax.mail.Authenticator {
     public void send() throws Exception {
         Properties props = _setProperties();
 
-        if(!user.isEmpty() && !password.isEmpty() && to.length > 0 && !from.isEmpty() && !subject.isEmpty() && !body.isEmpty()) {
+        if(!user.isEmpty() && !password.isEmpty() && !to.isEmpty() && !from.isEmpty() && !subject.isEmpty() && !body.isEmpty()) {
             Session session = Session.getInstance(props, this);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
-            InternetAddress[] addressTo = new InternetAddress[to.length];
+            InternetAddress addressTo = new InternetAddress(to);
 
-            for(int i = 0; i < to.length; i++) {
-                addressTo[i] = new InternetAddress(to[i]);
-            }
-
-            message.setRecipients(MimeMessage.RecipientType.TO, addressTo);
+            message.setRecipient(MimeMessage.RecipientType.TO, addressTo);
             message.setSubject(subject);
             message.setSentDate(new Date());
             BodyPart messageBodyPart = new MimeBodyPart();
@@ -113,7 +109,7 @@ class Mail extends javax.mail.Authenticator {
         this.body = body;
     }
 
-    public void setTo(String[] toArr) {
+    public void setTo(String toArr) {
         this.to = toArr;
     }
 
