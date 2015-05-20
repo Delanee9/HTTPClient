@@ -29,14 +29,14 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".registration.Registration1Activity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_registration1" >
+            android:label="@string/title_activity_registration1"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".registration.Registration2Activity"
             android:label="@string/title_activity_registration2"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".registration.Registration1Activity" >
+            android:parentActivityName=".registration.Registration1Activity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.delaney.httpclient.registration.Registration1Activity" />
@@ -44,8 +44,8 @@
         <activity
             android:name=".registration.Registration3Activity"
             android:label="@string/title_activity_registration3"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".registration.Registration2Activity" >
+            android:parentActivityName=".registration.Registration2Activity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.delaney.httpclient.registration.Registration2Activity" />
@@ -53,16 +53,16 @@
         <activity
             android:name=".registration.Registration4Activity"
             android:label="@string/title_activity_registration4"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".registration.Registration3Activity" >
+            android:parentActivityName=".registration.Registration3Activity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.delaney.httpclient.registration.Registration3Activity" />
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -80,22 +80,21 @@
         <activity
             android:name=".activities.FriendsActivity"
             android:label="@string/title_section2"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <receiver
-            android:name=".StartOnBootReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
+        <!--<receiver-->
+            <!--android:name=".StartOnBootReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
         <receiver
             android:name=".GcmBroadcastReceiver"
             android:enabled="true"
@@ -104,6 +103,7 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.delaney.httpclient" />
             </intent-filter>
         </receiver>
@@ -113,16 +113,37 @@
             android:exported="false" >
         </service>
 
+        <!-- <receiver -->
+        <!-- android:name=".LocationReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="" /> -->
+        <!-- <data android:scheme="geo" /> -->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!--<service-->
+            <!--android:name=".LocationIntentService"-->
+            <!--android:exported="false" >-->
+        <!--</service>-->
+
         <!--<receiver-->
-            <!--android:name=".LocationReceiver"-->
+            <!--android:name=".alarm.BootReceiver"-->
             <!--android:enabled="true"-->
-            <!--android:exported="true" >-->
-            <!--<intent-filter>-->
-                <!--<action android:name="" />-->
-                <!--<data android:scheme="geo" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
+            <!--android:exported="false" >-->
         <!--</receiver>-->
+
+        <receiver android:name=".alarm.AlarmReceiver" />
+
+        <receiver android:name=".alarm.BootReceiver"
+                  android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".alarm.AlarmService" />
     </application>
 
 </manifest>

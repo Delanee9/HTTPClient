@@ -3,6 +3,9 @@ package com.delaney.httpclient.errorHandling;
 import android.os.AsyncTask;
 import android.util.Log;
 
+/**
+ * Class to send error messages in email form for bug logging.
+ */
 public class ErrorHandling extends AsyncTask<String, Integer, Boolean> implements IMail{
 
     private final Mail mail = new Mail(EMAIL, PASSWORD);

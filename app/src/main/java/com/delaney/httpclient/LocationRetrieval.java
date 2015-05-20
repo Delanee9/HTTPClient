@@ -6,6 +6,9 @@ import android.location.LocationManager;
 
 import java.util.List;
 
+/**
+ * Class to retrieve the location of the device.
+ */
 public class LocationRetrieval {
     public static Location getLastKnownLocation(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

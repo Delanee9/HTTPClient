@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Class that holds methods for sending http post requests.
+ */
 public class UpstreamMessage {
     private static final String PARAMETER_REG_ID = "regId";
     private static final String PARAMETER_MOBILE = "mobile";
@@ -24,7 +27,7 @@ public class UpstreamMessage {
      * @param mobile String
      */
     public static void postRegister(String gcmId, String mobile) {
-        HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/register");
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/register");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
@@ -32,7 +35,6 @@ public class UpstreamMessage {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             new Uplink().execute(httpPost);
         } catch(Exception e) {
-            logger.warning("Failed to POST Register - " + e);
             new ErrorHandling("Failure in POST Register", e.toString()).execute();
         }
     }
@@ -43,14 +45,13 @@ public class UpstreamMessage {
      * @param gcmId String
      */
     public static void postUnregister(String gcmId) {
-        HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/unregister");
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/unregister");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             new Uplink().execute(httpPost);
         } catch(Exception e) {
-            logger.warning("Failed to POST Unregister - " + e);
             new ErrorHandling("Failure in POST Unregister", e.toString()).execute();
         }
     }
@@ -62,7 +63,7 @@ public class UpstreamMessage {
      * @param friendsAdded String
      */
     public static void postAdd(String gcmId, String friendsAdded) {
-        HttpPost httpPost = new HttpPost("http://www.igneous-equinox-653.appspot.com/add");
+        HttpPost httpPost = new HttpPost("https://www.igneous-equinox-653.appspot.com/add");
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair(PARAMETER_REG_ID, gcmId));
@@ -70,7 +71,6 @@ public class UpstreamMessage {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             new Uplink().execute(httpPost);
         } catch(Exception e) {
-            logger.warning("Failed to POST Add - " + e);
             new ErrorHandling("Failure in POST Add", e.toString()).execute();
         }
     }
@@ -90,7 +90,6 @@ public class UpstreamMessage {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             new Uplink().execute(httpPost);
         } catch(Exception e) {
-            logger.warning("Failed to POST Remove - " + e);
             new ErrorHandling("Failure in POST Remove", e.toString()).execute();
         }
     }
@@ -112,7 +111,6 @@ public class UpstreamMessage {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             new Uplink().execute(httpPost);
         } catch(Exception e) {
-            logger.warning("Failed to POST Visibility - " + e);
             new ErrorHandling("Failure in POST Visibility", e.toString()).execute();
         }
     }
@@ -132,7 +130,6 @@ public class UpstreamMessage {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             new Uplink().execute(httpPost);
         } catch(Exception e) {
-            logger.warning("Failed to POST Update - " + e);
             new ErrorHandling("Failure in POST Update", e.toString()).execute();
         }
     }

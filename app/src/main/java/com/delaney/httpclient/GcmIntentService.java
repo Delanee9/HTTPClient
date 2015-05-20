@@ -12,6 +12,9 @@ import com.delaney.httpclient.activities.MainActivity;
 import com.delaney.httpclient.databaseManagement.Database;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
 
+/**
+ * Class to take the downstream message and store the data.
+ */
 public class GcmIntentService extends IntentService implements ICommon {
     private static final int NOTIFICATION_ID = 1;
     private static final String LOCATION = "location";
@@ -38,6 +41,11 @@ public class GcmIntentService extends IntentService implements ICommon {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
+    /**
+     * Create a messsage that is visible in the systems dropdown menu
+     *
+     * @param message String
+     */
     private void sendNotification(String message) {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 

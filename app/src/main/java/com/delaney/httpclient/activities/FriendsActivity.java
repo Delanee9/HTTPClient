@@ -158,7 +158,7 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
      * @return ArrayAdapter<String>
      */
     private ArrayAdapter<String> getContacts(ContentResolver contentResolver) {
-        Cursor cursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        Cursor cursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
         List<String> arrayList = new ArrayList<String>();
         while(cursor.moveToNext()) {
             arrayList.add(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)) + "\n" + cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
@@ -181,6 +181,7 @@ public class FriendsActivity extends ActionBarActivity implements NavigationDraw
             numberString = numberString + Encryption.hashFunction(item) + ",";
         }
         UpstreamMessage.postAdd(getRegistrationId(context), numberString);
+        Toast.makeText(context, R.string.update, Toast.LENGTH_SHORT).show();
     }
 
     /**

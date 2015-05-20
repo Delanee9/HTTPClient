@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         currentLocation = location;
         setUpMap();
         String locationUpdate = String.valueOf(currentLocation.getLatitude()) + "," + String.valueOf(currentLocation.getLongitude());
-        UpstreamMessage.postUpdate(getRegistrationId(getApplicationContext()), locationUpdate);
+        //UpstreamMessage.postUpdate(getRegistrationId(getApplicationContext()), locationUpdate);
     }
 
     @Override
@@ -221,7 +221,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      * @param context Context
      * @return String
      */
-    private String getRegistrationId(Context context) {
+    public String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
         String registrationId = prefs.getString(PROPERTY_REG_ID, "");
         if(registrationId.isEmpty()) {
