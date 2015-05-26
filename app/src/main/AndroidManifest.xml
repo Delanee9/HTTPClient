@@ -96,7 +96,7 @@
             <!--</intent-filter>-->
         <!--</receiver>-->
         <receiver
-            android:name=".GcmBroadcastReceiver"
+            android:name=".receivers.GcmBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
@@ -109,7 +109,7 @@
         </receiver>
 
         <service
-            android:name=".GcmIntentService"
+            android:name=".receivers.intentService.GcmIntentService"
             android:exported="false" >
         </service>
 
@@ -134,16 +134,21 @@
             <!--android:exported="false" >-->
         <!--</receiver>-->
 
-        <receiver android:name=".alarm.AlarmReceiver" />
+        <receiver android:name=".receivers.AlarmReceiver"
+            android:enabled="true">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        </intent-filter>
+        </receiver>
 
-        <receiver android:name=".alarm.BootReceiver"
+        <receiver android:name=".receivers.BootReceiver"
                   android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".alarm.AlarmService" />
+        <service android:name=".receivers.intentService.AlarmIntentService" />
     </application>
 
 </manifest>

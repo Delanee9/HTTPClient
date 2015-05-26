@@ -1,4 +1,4 @@
-package com.delaney.httpclient.alarm;
+package com.delaney.httpclient.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

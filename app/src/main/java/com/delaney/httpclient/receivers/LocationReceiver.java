@@ -1,4 +1,4 @@
-package com.delaney.httpclient;
+package com.delaney.httpclient.receivers;
 
 import android.app.Activity;
 import android.content.ComponentName;

@@ -1,4 +1,4 @@
-package com.delaney.httpclient;
+package com.delaney.httpclient.receivers.intentService;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.delaney.httpclient.ICommon;
+import com.delaney.httpclient.R;
 import com.delaney.httpclient.activities.MainActivity;
-import com.delaney.httpclient.databaseManagement.Database;
+import com.delaney.httpclient.Database;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
+import com.delaney.httpclient.receivers.GcmBroadcastReceiver;
 
 /**
  * Class to take the downstream message and store the data.
@@ -42,7 +45,7 @@ public class GcmIntentService extends IntentService implements ICommon {
     }
 
     /**
-     * Create a messsage that is visible in the systems dropdown menu
+     * Create a message that is visible in the systems dropdown menu
      *
      * @param message String
      */

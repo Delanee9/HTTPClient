@@ -1,4 +1,4 @@
-package com.delaney.httpclient.alarm;
+package com.delaney.httpclient.receivers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -8,8 +8,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
+import com.delaney.httpclient.receivers.intentService.AlarmIntentService;
+
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Emmet on 20/05/2015.
@@ -20,7 +21,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent service = new Intent(context, AlarmService.class);
+        Intent service = new Intent(context, AlarmIntentService.class);
 
         startWakefulService(context, service);
     }

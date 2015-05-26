@@ -1,4 +1,4 @@
-package com.delaney.httpclient;
+package com.delaney.httpclient.receivers.intentService;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -8,14 +8,14 @@ import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
 
+import com.delaney.httpclient.LocationRetrieval;
+import com.delaney.httpclient.UpstreamMessage;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class to handle the periodic wakeup calls to post location updates

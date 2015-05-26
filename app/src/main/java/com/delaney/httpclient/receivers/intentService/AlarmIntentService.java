@@ -1,4 +1,4 @@
-package com.delaney.httpclient.alarm;
+package com.delaney.httpclient.receivers.intentService;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -9,12 +9,13 @@ import android.util.Log;
 
 import com.delaney.httpclient.LocationRetrieval;
 import com.delaney.httpclient.UpstreamMessage;
+import com.delaney.httpclient.receivers.AlarmReceiver;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
 
-public class AlarmService extends IntentService {
+public class AlarmIntentService extends IntentService {
     private static final String PROPERTY_REG_ID = "registration_id";
 
-    public AlarmService() {
+    public AlarmIntentService() {
         super("SchedulingService");
     }
 
@@ -24,7 +25,6 @@ public class AlarmService extends IntentService {
         Location location = LocationRetrieval.getLastKnownLocation(context);
         String locationUpdate = String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude());
         UpstreamMessage.postUpdate(getRegistrationId(context), locationUpdate);
-        new ErrorHandling("update", locationUpdate).execute();
 
         AlarmReceiver.completeWakefulIntent(intent);
     }
@@ -52,6 +52,6 @@ public class AlarmService extends IntentService {
      * @return SharedPreferences
      */
     private SharedPreferences getGCMPreferences(Context context) {
-        return getSharedPreferences(AlarmService.class.getSimpleName(), Context.MODE_PRIVATE);
+        return getSharedPreferences(AlarmIntentService.class.getSimpleName(), Context.MODE_PRIVATE);
     }
 }
