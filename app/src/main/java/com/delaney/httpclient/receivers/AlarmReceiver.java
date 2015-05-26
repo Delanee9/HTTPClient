@@ -6,9 +6,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.widget.Toast;
 
+import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.receivers.intentService.AlarmIntentService;
+import com.delaney.httpclient.receivers.intentService.AlarmService;
+import com.delaney.httpclient.receivers.intentService.GcmIntentService;
 
 import java.util.Calendar;
 
@@ -16,14 +21,15 @@ import java.util.Calendar;
  * Created by Emmet on 20/05/2015.
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent service = new Intent(context, AlarmIntentService.class);
+//        Intent service = new Intent(context, AlarmService.class);
+//        ComponentName componentName = new ComponentName(context.getPackageName(), AlarmIntentService.class.getName());
+//        startWakefulService(context, (intent.setComponent(componentName)));
+//        startWakefulService(context, service);
 
-        startWakefulService(context, service);
+        Intent alarmIntent = new Intent(context, AlarmService.class);
+        startWakefulService(context, alarmIntent);
     }
 
     /**
@@ -33,37 +39,10 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
      * @param context
      */
     public void setAlarm(Context context) {
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent pending_intent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-//        // Set the alarm's trigger time to 8:30 a.m.
-        calendar.set(Calendar.MILLISECOND,((int)System.currentTimeMillis()) + 100);
-
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-
-        ComponentName receiver = new ComponentName(context, BootReceiver.class);
-        PackageManager packageManager = context.getPackageManager();
-
-        packageManager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-    }
-
-    /**
-     * Cancels the alarm.
-     *
-     * @param context Context
-     */
-    public void cancelAlarm(Context context) {
-
-        if(alarmManager != null) {
-            alarmManager.cancel(pendingIntent);
-        }
-
-        ComponentName receiver = new ComponentName(context, BootReceiver.class);
-        PackageManager packageManager = context.getPackageManager();
-
-        packageManager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        AlarmManager alarm_mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarm_mgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1, pending_intent);
     }
 }

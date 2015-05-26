@@ -1,33 +1,45 @@
 package com.delaney.httpclient.receivers.intentService;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.delaney.httpclient.LocationRetrieval;
 import com.delaney.httpclient.UpstreamMessage;
 import com.delaney.httpclient.activities.MainActivity;
-import com.delaney.httpclient.receivers.AlarmReceiver;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
 
-public class AlarmIntentService extends IntentService {
+public class AlarmService extends Service {
     private static final String PROPERTY_REG_ID = "registration_id";
 
-    public AlarmIntentService() {
-        super("AlarmIntentService");
+    public AlarmService() {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onCreate() {
         Context context = getApplicationContext();
         Location location = LocationRetrieval.getLastKnownLocation(context);
         String locationUpdate = String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude());
         UpstreamMessage.postUpdate(getRegistrationId(context), locationUpdate);
         new ErrorHandling("intent", "bullshit").execute();
-        AlarmReceiver.completeWakefulIntent(intent);
+        Toast.makeText(context, "Repeating alarm received.", Toast.LENGTH_SHORT).show();
+        onDestroy();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public IBinder onBind(Intent arg0) {
+
+        return null;
     }
 
     /**

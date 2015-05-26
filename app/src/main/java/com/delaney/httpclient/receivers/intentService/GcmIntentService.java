@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import com.delaney.httpclient.ICommon;
 import com.delaney.httpclient.R;
 import com.delaney.httpclient.activities.MainActivity;
-import com.delaney.httpclient.Database;
+import com.delaney.httpclient.databaseManagement.Database;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
 import com.delaney.httpclient.receivers.GcmBroadcastReceiver;
 

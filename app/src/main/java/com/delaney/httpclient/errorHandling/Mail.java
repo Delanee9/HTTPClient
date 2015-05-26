@@ -45,13 +45,13 @@ class Mail extends javax.mail.Authenticator {
 
         _multipart = new MimeMultipart();
 
-        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-        mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
-        mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-        mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-        mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-        CommandMap.setDefaultCommandMap(mc);
+        MailcapCommandMap commandMap = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+        commandMap.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
+        commandMap.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+        commandMap.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
+        commandMap.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+        commandMap.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+        CommandMap.setDefaultCommandMap(commandMap);
     }
 
     public Mail(String users, String pass) {
@@ -61,10 +61,10 @@ class Mail extends javax.mail.Authenticator {
     }
 
     public void send() throws Exception {
-        Properties props = _setProperties();
+        Properties properties = _setProperties();
 
         if(!user.isEmpty() && !password.isEmpty() && !to.isEmpty() && !from.isEmpty() && !subject.isEmpty() && !body.isEmpty()) {
-            Session session = Session.getInstance(props, this);
+            Session session = Session.getInstance(properties, this);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             InternetAddress addressTo = new InternetAddress(to);
@@ -86,23 +86,23 @@ class Mail extends javax.mail.Authenticator {
     }
 
     private Properties _setProperties() {
-        Properties props = new Properties();
+        Properties properties = new Properties();
 
-        props.put("mail.smtp.host", host);
+        properties.put("mail.smtp.host", host);
 
         if(_debuggable) {
-            props.put("mail.debug", "true");
+            properties.put("mail.debug", "true");
         }
 
         if(auth) {
-            props.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.auth", "true");
         }
 
-        props.put("mail.smtp.port", port);
-        props.put("mail.smtp.socketFactory.port", _sport);
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.socketFactory.fallback", "false");
-        return props;
+        properties.put("mail.smtp.port", port);
+        properties.put("mail.smtp.socketFactory.port", _sport);
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.socketFactory.fallback", "false");
+        return properties;
     }
 
     public void setBody(String body) {

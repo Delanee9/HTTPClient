@@ -87,14 +87,6 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <!--<receiver-->
-            <!--android:name=".StartOnBootReceiver"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true" >-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
         <receiver
             android:name=".receivers.GcmBroadcastReceiver"
             android:enabled="true"
@@ -113,42 +105,26 @@
             android:exported="false" >
         </service>
 
-        <!-- <receiver -->
-        <!-- android:name=".LocationReceiver" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true" > -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="" /> -->
-        <!-- <data android:scheme="geo" /> -->
-        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
-        <!--<service-->
-            <!--android:name=".LocationIntentService"-->
-            <!--android:exported="false" >-->
-        <!--</service>-->
-
-        <!--<receiver-->
-            <!--android:name=".alarm.BootReceiver"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false" >-->
-        <!--</receiver>-->
-
-        <receiver android:name=".receivers.AlarmReceiver"
-            android:enabled="true">
-        <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED"/>
-        </intent-filter>
+        <receiver
+            android:name=".receivers.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.BootReceiver"
-                  android:enabled="false">
+        <receiver
+            android:name=".receivers.BootReceiver"
+            android:enabled="false" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service android:name=".receivers.intentService.AlarmIntentService" />
+
+        <service
+            android:name=".receivers.intentService.AlarmService">
+        </service>
     </application>
 
 </manifest>

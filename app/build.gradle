@@ -3,17 +3,17 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-//            storeFile file("E:/pal-2-pal.keystore")
-//            storePassword "pal-2-pal"
-//            keyAlias "pal-2-pal"
-//            keyPassword "pal-2-pal"
+            storeFile file("E:/pal-2-pal.keystore")
+            storePassword "pal-2-pal"
+            keyAlias "pal-2-pal"
+            keyPassword "pal-2-pal"
         }
 
         sslconfig {
-//            keyAlias 'Pal-2-Pal'
-//            keyPassword 'Pandemic796281'
-//            storeFile file('E:/mykeystore.jks')
-//            storePassword 'Pandemic796281'
+            keyAlias 'Pal-2-Pal'
+            keyPassword 'Pandemic796281'
+            storeFile file('E:/mykeystore.jks')
+            storePassword 'Pandemic796281'
         }
     }
     compileSdkVersion 21

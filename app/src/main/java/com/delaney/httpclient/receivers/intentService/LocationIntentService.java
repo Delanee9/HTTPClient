@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.delaney.httpclient.LocationRetrieval;
 import com.delaney.httpclient.UpstreamMessage;
+import com.delaney.httpclient.activities.MainActivity;
 import com.delaney.httpclient.errorHandling.ErrorHandling;
 
 import java.util.Timer;
@@ -92,6 +93,6 @@ public class LocationIntentService extends IntentService {
      * @return SharedPreferences
      */
     private SharedPreferences getGCMPreferences(Context context) {
-        return getSharedPreferences(LocationIntentService.class.getSimpleName(), Context.MODE_PRIVATE);
+        return getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
     }
 }
